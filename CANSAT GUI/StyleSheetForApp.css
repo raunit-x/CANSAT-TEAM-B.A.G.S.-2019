@@ -1,8 +1,57 @@
+#nsut
+{
+    width: 12.5%;
+    height: 20%;
+    position: absolute;
+    top: 110px;
+    left: 160px;
+}
+
 #bags
 {
     width: 10%;
-    height: 10%;
+    height: 15%;
+}
+
+#flag
+{
+    width: 5%;
+    height: 5%;
+    position: absolute;
+    top: 35px;
+    left: 25px;
+}
+
+
+#cansat
+{
+    width: 12.5%;
+    height: 20%;
     position: absolute;
     top: 100px;
-    left: 10px;
+    left: 1050px;
+}
+
+.Graphs
+{
+    display: flex;
+    flex-wrap: wrap;
+    height: 60%;
+}
+
+
+#heading
+{
+
+}
+
+#gcs
+{
+
+}
+
+
+#datatable-container
+{
+
 }
