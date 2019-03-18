@@ -1,5 +1,6 @@
 # CANSAT-TEAM-B.A.G.S.-2019-
-PDR Results have been declared, TEAM B.A.G.S. has been invited to the US finals with 5th Rank worldwide.
+PDR Results have been declared, TEAM B.A.G.S. has been invited to the US finals.
+PDR Rank : 5 worldwide, Score : 98.26%.
 TEAM ID : 1516
 This repository is for the CANSAT competition 2019 (cansatcompetition.com) held at Texas, USA. 
 The codes are for GCS(Ground Control Station) - 
