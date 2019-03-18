@@ -1,4 +1,6 @@
 # CANSAT-TEAM-B.A.G.S.-2019-
+PDR Results have been declared, TEAM B.A.G.S. has been invited to the US finals with 5th Rank worldwide.
+TEAM ID : 1516
 This repository is for the CANSAT competition 2019 (cansatcompetition.com) held at Texas, USA. 
 The codes are for GCS(Ground Control Station) - 
   1. Real time plotting of the telemetry.
