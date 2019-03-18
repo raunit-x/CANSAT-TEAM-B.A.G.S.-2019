@@ -11,6 +11,7 @@ import dash_table
 import serial
 import csv
 
+# Making use of the deque data structure so as to ensure that the computations are capped.
 MAXLEN = 20
 X = deque(maxlen=MAXLEN)
 X.append(0)
@@ -21,9 +22,12 @@ Altitude = deque(maxlen=MAXLEN)
 Pitch = deque(maxlen=MAXLEN)
 Roll = deque(maxlen=MAXLEN)
 
+# Making a dictionary just for easier reference 
 values = {'1': Temperature, '2': Pressure, '3': Voltage,
     '4': Altitude, '5': Pitch, '6': Roll
     }
+# These are used to calculate the width and height of the graph windows
+# The graph windows' size changes depending upon the current max and min of the deque of the particular field.
 min_temp = 0
 max_temp = 0
 max_pressure = 0
@@ -37,26 +41,34 @@ max_pitch = 0
 min_roll = 0
 max_roll = 0
 
+# Initialising all the parameters of the pyserial connection
 SERIAL_PORT = '/dev/tty.usbserial-AL017DBD'
 BAUD_RATE = 9600
 time_out = 0.99
 
+# This is the header row for the Dataframe which would be printed in the GUI 
+# This is also the header row for the .csv file being created
 HEADER_ROW = ['TEAM_ID', 'MISSION_TIME', 'PACKET COUNT', 'ALTITUDE', 'PRESSURE',
               'TEMPERATURE', 'VOLTAGE', 'GPS TIME', 'GPS LATITUDE', 'GPS LONGITUDE', 'GPS ALTITUDE',
               'GPS SATELLITES', 'PITCH', 'ROLL', 'BLADE SPIN RATE', 'SOFTWARE STATE', 'BONUS DIRECTION']
 
+# File path to the .csv file
 file_name = '/Users/raunitsingh/Desktop/cansat.csv'
 
+# initialising the dataframe with the header row
 df = pd.DataFrame(columns=HEADER_ROW)
-# df.append(HEADER_ROW)
 
+# Establishing the connection by searching for the port
 if __name__ == '__main__':
     ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=time_out)
 
 myFile = open(file_name, 'wb')  # open in binary
+# make a 'writing' object of the csv module.
 writer = csv.writer(myFile)
+# Make the header of the .csv file.
 writer.writerow(HEADER_ROW)
 
+# Initialise the dash 'app' 
 app = dash.Dash(__name__)
 # colors dictionary for all the colors which would be needed in styling
 colors = {
@@ -209,7 +221,8 @@ def update_graph(n):
         max_pitch = Pitch[0]
         min_roll = Roll[0]
         max_roll = Roll[0]
-
+    # Since it is a stream of bits, this gets rid of the huge overhead by using min(Array) and max(Array) for all the deques
+    # The number of comparisons are reduced to 2 per deque instead of 40.
     min_temp = min(float(data[5]), min_temp)
     max_temp = max(float(data[5]), max_temp)
     min_pressure = min(float(data[4]), min_pressure)
@@ -322,7 +335,7 @@ layout_pressure = {
         'yaxis': dict(linecolor='#669999', linewidth=2, title='Roll',
                       range=[min_roll - 0.03, max_roll + 0.03])
 }
-    
+    # storing all the layouts and the data of the graph in variables
     temp = {'data': [data_temperature], 'layout': layout_temperature}
     pres = {'data': [data_pressure], 'layout': layout_pressure}
     volt = {'data': [data_voltage], 'layout': layout_voltage}
@@ -338,6 +351,7 @@ layout_pressure = {
 return temp, pres, volt, alti, pitc, roll, df.to_dict('rows')
 
 
+# Runnign the app on port = 8050 with debugger = False
 if __name__ == '__main__':
     app.run_server(port=8050)
 
