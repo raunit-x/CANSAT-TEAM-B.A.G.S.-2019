@@ -22,10 +22,10 @@ Altitude = deque(maxlen=MAXLEN)
 Pitch = deque(maxlen=MAXLEN)
 Roll = deque(maxlen=MAXLEN)
 
-# Making a dictionary just for easier reference 
+# Making a dictionary just for easier reference
 values = {'1': Temperature, '2': Pressure, '3': Voltage,
-    '4': Altitude, '5': Pitch, '6': Roll
-    }
+          '4': Altitude, '5': Pitch, '6': Roll
+          }
 # These are used to calculate the width and height of the graph windows
 # The graph windows' size changes depending upon the current max and min of the deque of the particular field.
 min_temp = 0
@@ -46,7 +46,7 @@ SERIAL_PORT = '/dev/tty.usbserial-AL017DBD'
 BAUD_RATE = 9600
 time_out = 0.99
 
-# This is the header row for the Dataframe which would be printed in the GUI 
+# This is the header row for the Dataframe which would be printed in the GUI
 # This is also the header row for the .csv file being created
 HEADER_ROW = ['TEAM_ID', 'MISSION_TIME', 'PACKET COUNT', 'ALTITUDE', 'PRESSURE',
               'TEMPERATURE', 'VOLTAGE', 'GPS TIME', 'GPS LATITUDE', 'GPS LONGITUDE', 'GPS ALTITUDE',
@@ -59,16 +59,14 @@ file_name = '/Users/raunitsingh/Desktop/cansat.csv'
 df = pd.DataFrame(columns=HEADER_ROW)
 
 # Establishing the connection by searching for the port
-if __name__ == '__main__':
-    ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=time_out)
+# if __name__ == '__main__':
+#     ser = serial.Serial(SERIAL_PORT, BAUD_RATE, timeout=time_out)
 
 myFile = open(file_name, 'wb')  # open in binary
-# make a 'writing' object of the csv module.
 writer = csv.writer(myFile)
-# Make the header of the .csv file.
-writer.writerow(HEADER_ROW)
+# writer.writerow(HEADER_ROW)
 
-# Initialise the dash 'app' 
+# Initialise the dash 'app'
 app = dash.Dash(__name__)
 # colors dictionary for all the colors which would be needed in styling
 colors = {
@@ -81,103 +79,104 @@ colors = {
 }
 
 # encoding all the images in base64
-encoded_image_bags = base64.b64encode(open('/Users/raunitsingh/Desktop/CANSAT DIAGRAMS/logo.jpeg', 'rb').read())
-encoded_image_flag = base64.b64encode(open('/Users/raunitsingh/Desktop/CANSAT DIAGRAMS/flag.png', 'rb').read())
+encoded_image_bags = base64.b64encode(open('/Users/raunitsingh/Desktop/Cansat Stuff/CANSAT GUI/logo.jpeg', 'rb').read())
+encoded_image_flag = base64.b64encode(open('/Users/raunitsingh/Desktop/Cansat Stuff/CANSAT GUI/flag.png', 'rb').read())
 encoded_image_cansat = base64.b64encode(
-                                        open('/Users/raunitsingh/Desktop/CANSAT DIAGRAMS/CanSat Logo - Color.png', 'rb').read())
-encoded_image_nsut = base64.b64encode(open('/Users/raunitsingh/Desktop/CANSAT DIAGRAMS/nsut_logo.png', 'rb').read())
+    open('/Users/raunitsingh/Desktop/Cansat Stuff/CANSAT GUI/CanSat Logo - Color.png', 'rb').read())
+encoded_image_nsut = base64.b64encode(
+    open('/Users/raunitsingh/Desktop/Cansat Stuff/CANSAT GUI/nsut_logo.png', 'rb').read())
 
 # definition of the app
 app.layout = html.Div(style={'backgroundColor': colors['background'], 'text-align': 'center'}, children=[
-                                                                                                         # The header 1
-                                                                                                         html.H1(
-                                                                                                                 id='heading',
-                                                                                                                 children='TEAM B.A.G.S. NSUT',
-                                                                                                                 style={
-                                                                                                                 'textAlign': 'center',
-                                                                                                                 'color': colors['Grey']
-                                                                                                                 }
-                                                                                                                 ),
-                                                                                                         # The header 2
-                                                                                                         html.H2(
-                                                                                                                 id='gcs',
-                                                                                                                 children='Ground Control Station',
-                                                                                                                 style={
-                                                                                                                 'textAlign': 'center',
-                                                                                                                 'color': '#f0b629'
-                                                                                                                 }
-                                                                                                                 ),
-                                                                                                         # All the images encapsulated under 'images'
-                                                                                                         html.Div([
-                                                                                                                   html.Img(id='bags', src='data:image/png;base64,{}'.format(encoded_image_bags)),
-                                                                                                                   html.Img(id='flag', src='data:image/png;base64,{}'.format(encoded_image_flag)),
-                                                                                                                   html.Img(id='cansat', src='data:image/png;base64,{}'.format(encoded_image_cansat)),
-                                                                                                                   html.Img(id='nsut', src='data:image/png;base64,{}'.format(encoded_image_nsut))
-                                                                                                                   ], className='Images'),
-                                                                                                         
-                                                                                                         # All the graphs which would be updated using a callback
-                                                                                                         html.Div([
-                                                                                                                   dcc.Graph(
-                                                                                                                             id='temperature-live',
-                                                                                                                             animate=True
-                                                                                                                             ),
-                                                                                                                   dcc.Graph(
-                                                                                                                             id='pressure-live',
-                                                                                                                             animate=True
-                                                                                                                             ),
-                                                                                                                   dcc.Graph(
-                                                                                                                             id='voltage-live',
-                                                                                                                             animate=True
-                                                                                                                             ),
-                                                                                                                   dcc.Graph(
-                                                                                                                             id='altitude-live',
-                                                                                                                             animate=True
-                                                                                                                             ),
-                                                                                                                   dcc.Graph(
-                                                                                                                             id='pitch-live',
-                                                                                                                             animate=True
-                                                                                                                             ),
-                                                                                                                   dcc.Graph(
-                                                                                                                             id='roll-live',
-                                                                                                                             animate=True
-                                                                                                                             ),
-                                                                                                                   dcc.Interval(
-                                                                                                                                id='interval-component',
-                                                                                                                                interval=1000,
-                                                                                                                                n_intervals=0
-                                                                                                                                )
-                                                                                                                   
-                                                                                                                   ], className='Graphs'),
-                                                                                                         
-                                                                                                         # Showing the .csv file using dashTable
-                                                                                                         dash_table.DataTable(
-                                                                                                                              id='datatable-container',
-                                                                                                                              columns=[{"name": i, "id": i} for i in df.columns],
-                                                                                                                              n_fixed_rows=1,
-                                                                                                                              style_table={
-                                                                                                                              'align': 'center',
-                                                                                                                              'maxWidth': '1800px',
-                                                                                                                              'maxHeight': '400px',
-                                                                                                                              'overflowY': 'scroll',
-                                                                                                                              'overflowX': 'scroll'
-                                                                                                                              },
-                                                                                                                              style_header={'backgroundColor': 'rgb(30, 30, 30)'},
-                                                                                                                              style_cell={
-                                                                                                                              'textAlign': 'left',
-                                                                                                                              'backgroundColor': 'rgb(40, 40, 40)',
-                                                                                                                              'color': 'white',
-                                                                                                                              'minWidth': '275px',
-                                                                                                                              'width': '275px',
-                                                                                                                              'maxWidth': '275px',
-                                                                                                                              'whiteSpace': 'normal'
-                                                                                                                              },
-                                                                                                                              css=[{
-                                                                                                                                   'selector': '.dash-cell div.dash-cell-value',
-                                                                                                                                   'rule': 'display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;'
-                                                                                                                                   }]
-                                                                                                                              )
-                                                                                                         
-                                                                                                         ])
+    # The header 1
+    html.H1(
+        id='heading',
+        children='TEAM B.A.G.S. NSUT',
+        style={
+            'textAlign': 'center',
+            'color': colors['Grey']
+        }
+    ),
+    # The header 2
+    html.H2(
+        id='gcs',
+        children='Ground Control Station',
+        style={
+            'textAlign': 'center',
+            'color': '#f0b629'
+        }
+    ),
+    # All the images encapsulated under 'images'
+    html.Div([
+        html.Img(id='bags', src='data:image/png;base64,{}'.format(encoded_image_bags)),
+        html.Img(id='flag', src='data:image/png;base64,{}'.format(encoded_image_flag)),
+        html.Img(id='cansat', src='data:image/png;base64,{}'.format(encoded_image_cansat)),
+        html.Img(id='nsut', src='data:image/png;base64,{}'.format(encoded_image_nsut))
+    ], className='Images'),
+
+    # All the graphs which would be updated using a callback
+    html.Div([
+        dcc.Graph(
+            id='temperature-live',
+            animate=True
+        ),
+        dcc.Graph(
+            id='pressure-live',
+            animate=True
+        ),
+        dcc.Graph(
+            id='voltage-live',
+            animate=True
+        ),
+        dcc.Graph(
+            id='altitude-live',
+            animate=True
+        ),
+        dcc.Graph(
+            id='pitch-live',
+            animate=True
+        ),
+        dcc.Graph(
+            id='roll-live',
+            animate=True
+        ),
+        dcc.Interval(
+            id='interval-component',
+            interval=1000,
+            n_intervals=0
+        )
+
+    ], className='Graphs'),
+
+    # Showing the .csv file using dashTable
+    dash_table.DataTable(
+        id='datatable-container',
+        columns=[{"name": i, "id": i} for i in df.columns],
+        n_fixed_rows=1,
+        style_table={
+            'align': 'center',
+            'maxWidth': '1800px',
+            'maxHeight': '400px',
+            'overflowY': 'scroll',
+            'overflowX': 'scroll'
+        },
+        style_header={'backgroundColor': 'rgb(30, 30, 30)'},
+        style_cell={
+            'textAlign': 'left',
+            'backgroundColor': 'rgb(40, 40, 40)',
+            'color': 'white',
+            'minWidth': '275px',
+            'width': '275px',
+            'maxWidth': '275px',
+            'whiteSpace': 'normal'
+        },
+        css=[{
+            'selector': '.dash-cell div.dash-cell-value',
+            'rule': 'display: inline; white-space: inherit; overflow: inherit; text-overflow: inherit;'
+        }]
+    )
+
+])
 
 
 # The callback for updating all the graphs
@@ -190,23 +189,23 @@ app.layout = html.Div(style={'backgroundColor': colors['background'], 'text-alig
                Output('datatable-container', 'data')],
               [Input('interval-component', 'n_intervals')])
 def update_graph(n):
-    global values, min_temp, max_temp, min_altitude, min_pitch, max_altitude, max_pitch, min_pressure,\
+    global values, min_temp, max_temp, min_altitude, min_pitch, max_altitude, max_pitch, min_pressure, \
         max_pressure, min_volt, max_volt, min_roll, max_roll, df
     X.append(X[-1] + 1)
     # Here the sensor updating code will be there
-    message = ser.readline()
-    message = message[:-2]  # to remove '\r' and '\n'
-    data = list(message.split(','))
+    #     message = ser.readline()
+    #     message = message[:-2]  # to remove '\r' and '\n'
+    data = ['1516', '0', '17', '177.66', '99209.27', '19.91', '0', '2013-10-22T01:37:56+05:30', '0', '0', '0', '0',
+            '0', '0', '0', 'Boot', '0']
     indices_values = ['1', '2', '3', '4', '5', '6']
     indices_data = [5, 4, 6, 3, 12, 13]
     if len(data) > 16:
         # data = data[:-2]
         print(data)
-        for index in indices_data:
-            for j in indices_values:
-                values[j].append(float(data[index]))
+        for index, j in zip(indices_data, indices_values):
+            values[j].append(float(data[index]))
         writer.writerow(data)
-    
+
     # Use of so many variables for optimisation over using min(deque) and max(deque)
     if len(values['1']) == 1:
         min_temp = Temperature[0]
@@ -221,7 +220,8 @@ def update_graph(n):
         max_pitch = Pitch[0]
         min_roll = Roll[0]
         max_roll = Roll[0]
-    # Since it is a stream of bits, this gets rid of the huge overhead by using min(Array) and max(Array) for all the deques
+    # Since it is a stream of bits, this gets rid of the huge overhead by using min(Array)
+    #  and max(Array) for all the deques
     # The number of comparisons are reduced to 2 per deque instead of 40.
     min_temp = min(float(data[5]), min_temp)
     max_temp = max(float(data[5]), max_temp)
@@ -236,56 +236,56 @@ def update_graph(n):
     min_roll = min(float(data[13]), min_roll)
     max_roll = max(float(data[13]), max_roll)
 
-data_temperature = go.Scatter(
-                              x=list(X),
-                              y=list(values['1']),
-                              name='Scatter',
-                              mode='lines+markers'
-                              )
+    data_temperature = go.Scatter(
+        x=list(X),
+        y=list(values['1']),
+        name='Scatter',
+        mode='lines+markers'
+    )
     data_pressure = go.Scatter(
-                               x=list(X),
-                               y=list(values['2']),
-                               name='Scatter',
-                               mode='lines+markers'
-                               )
-                               data_voltage = go.Scatter(
-                                                         x=list(X),
-                                                         y=list(values['3']),
-                                                         name='Scatter',
-                                                         mode='lines+markers'
-                                                         )
-                               data_altitude = go.Scatter(
-                                                          x=list(X),
-                                                          y=list(values['4']),
-                                                          name='Scatter',
-                                                          mode='lines+markers'
-                                                          )
-                               data_pitch = go.Scatter(
-                                                       x=list(X),
-                                                       y=list(values['5']),
-                                                       name='Scatter',
-                                                       mode='lines+markers'
-                                                       )
-                               data_roll = go.Scatter(
-                                                      x=list(X),
-                                                      y=list(values['6']),
-                                                      name='Scatter',
-                                                      mode='lines+markers'
-                                                      )
-                               min_x = min(X)
-                               max_x = max(X)
-                               layout_temperature = {
-                                   'title': 'TEMPERATURE(in Celcius)',
-                                       'plot_bgcolor': colors['GraphSpace'],
-                                       'paper_bgcolor': colors['background'],
-                                       'font': {'color': '#669999'},
-                                           'colorway': ['#FFFF00'],
-                                           'xaxis': dict(linecolor='#669999', linewidth=2, title='Mission Time', range=[min_x, max_x]),
-                                           'yaxis': dict(linecolor='#669999', linewidth=2, title='Temperature',
-                                                         range=[min_temp - 0.03, max_temp + 0.03])
-                                       }
-layout_pressure = {
-    'title': 'PRESSURE(in Pascals)',
+        x=list(X),
+        y=list(values['2']),
+        name='Scatter',
+        mode='lines+markers'
+    )
+    data_voltage = go.Scatter(
+        x=list(X),
+        y=list(values['3']),
+        name='Scatter',
+        mode='lines+markers'
+    )
+    data_altitude = go.Scatter(
+        x=list(X),
+        y=list(values['4']),
+        name='Scatter',
+        mode='lines+markers'
+    )
+    data_pitch = go.Scatter(
+        x=list(X),
+        y=list(values['5']),
+        name='Scatter',
+        mode='lines+markers'
+    )
+    data_roll = go.Scatter(
+        x=list(X),
+        y=list(values['6']),
+        name='Scatter',
+        mode='lines+markers'
+    )
+    min_x = min(X)
+    max_x = max(X)
+    layout_temperature = {
+        'title': 'TEMPERATURE(in Celcius)',
+        'plot_bgcolor': colors['GraphSpace'],
+        'paper_bgcolor': colors['background'],
+        'font': {'color': '#669999'},
+        'colorway': ['#FFFF00'],
+        'xaxis': dict(linecolor='#669999', linewidth=2, title='Mission Time', range=[min_x, max_x]),
+        'yaxis': dict(linecolor='#669999', linewidth=2, title='Temperature',
+                      range=[min_temp - 0.03, max_temp + 0.03])
+    }
+    layout_pressure = {
+        'title': 'PRESSURE(in Pascals)',
         'plot_bgcolor': colors['GraphSpace'],
         'paper_bgcolor': colors['background'],
         'font': {'color': '#669999'},
@@ -303,7 +303,7 @@ layout_pressure = {
         'xaxis': dict(linecolor='#669999', linewidth=2, title='Mission Time', range=[min_x, max_x]),
         'yaxis': dict(linecolor='#669999', linewidth=2, title='Voltage',
                       range=[min_volt - 0.03, max_volt + 0.03])
-}
+    }
     layout_altitude = {
         'title': 'ALTITUDE(in meters)',
         'plot_bgcolor': colors['GraphSpace'],
@@ -313,7 +313,7 @@ layout_pressure = {
         'xaxis': dict(linecolor='#669999', linewidth=2, title='Mission Time', range=[min_x, max_x]),
         'yaxis': dict(linecolor='#669999', linewidth=2, title='Altitude',
                       range=[min_altitude - 0.03, max_altitude + 0.03])
-}
+    }
     layout_pitch = {
         'title': 'PITCH(in Radians)',
         'plot_bgcolor': colors['GraphSpace'],
@@ -323,7 +323,7 @@ layout_pressure = {
         'xaxis': dict(linecolor='#669999', linewidth=2, title='Mission Time', range=[min_x, max_x]),
         'yaxis': dict(linecolor='#669999', linewidth=2, title='Pitch',
                       range=[min_pitch - 0.03, max_pitch + 0.03])
-}
+    }
     layout_roll = {
         'title': 'ROLL(in Radians)',
         'plot_bgcolor': colors['GraphSpace'],
@@ -334,7 +334,7 @@ layout_pressure = {
         'xaxis': dict(linecolor='#669999', linewidth=2, title='Mission Time', range=[min_x, max_x]),
         'yaxis': dict(linecolor='#669999', linewidth=2, title='Roll',
                       range=[min_roll - 0.03, max_roll + 0.03])
-}
+    }
     # storing all the layouts and the data of the graph in variables
     temp = {'data': [data_temperature], 'layout': layout_temperature}
     pres = {'data': [data_pressure], 'layout': layout_pressure}
@@ -342,16 +342,15 @@ layout_pressure = {
     alti = {'data': [data_altitude], 'layout': layout_altitude}
     pitc = {'data': [data_pitch], 'layout': layout_pitch}
     roll = {'data': [data_roll], 'layout': layout_roll}
-    
+
     # Implementing the DataFrame as a deque
     if df.shape[0] > 20:  # if the number of rows is > 20, then we pop the first row
-        df = df.iloc[1:]   # Limiting the size of the DataFrame to 20 rows
+        df = df.iloc[1:]  # Limiting the size of the DataFrame to 20 rows
     df = df.append(pd.Series(data, index=df.columns), ignore_index=True)
 
-return temp, pres, volt, alti, pitc, roll, df.to_dict('rows')
+    return temp, pres, volt, alti, pitc, roll, df.to_dict('rows')
 
 
 # Runnign the app on port = 8050 with debugger = False
 if __name__ == '__main__':
     app.run_server(port=8050)
-
