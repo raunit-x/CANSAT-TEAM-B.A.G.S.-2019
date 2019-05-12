@@ -4,7 +4,7 @@ PDR Results have been declared, TEAM B.A.G.S. has been invited to the US finals.
 PDR Rank : 5 worldwide, Score : 98.26%.
 TEAM ID : 1516
 This repository is for the CANSAT competition 2019 (cansatcompetition.com) held at Texas, USA. 
-The codes are for GCS(Ground Control Station) - 
+The codes are for GCS(Ground Control Station) - \n
   1. Real time plotting of the telemetry.
   2. Making a GUI from scratch to display the real time plots (9 plots).
   3. Tilt animation of the CANSAT(Can-Sized-Satellite) using Matlab.
