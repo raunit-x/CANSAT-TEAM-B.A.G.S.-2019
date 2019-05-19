@@ -1,4 +1,4 @@
-# CANSAT-TEAM-B.A.G.S.-2019-
+# CANSAT TEAM B.A.G.S. 2019
 <img src = '/CANSAT GUI/CanSat Logo - Color.png' width = "300">
 PDR Results have been declared, TEAM B.A.G.S. has been invited to the US finals.
 PDR Rank : 5 worldwide, Score : 98.26%.
