@@ -43,7 +43,7 @@ array.append(roll)
 array.append(blade_spin_rate)
 array.append(bonus_direction)
 
-def animate(yolo):
+def animate(I):
     global i, array, axs, colors
     message = ser.readline()
     message = message[:-2] #to remove '\r' and '\n' 
