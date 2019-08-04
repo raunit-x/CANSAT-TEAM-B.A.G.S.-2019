@@ -1,0 +1,110 @@
+#nsut
+{
+    width: 12.5%;
+    height: 20%;
+    position: absolute;
+    top: 110px;
+    left: 160px;
+}
+
+#bags
+{
+    width: 10%;
+    height: 15%;
+}
+
+#flag
+{
+    width: 5%;
+    height: 5%;
+    position: absolute;
+    top: 35px;
+    left: 25px;
+}
+
+
+#cansat
+{
+    width: 12.5%;
+    height: 20%;
+    position: absolute;
+    top: 100px;
+    left: 1050px;
+}
+
+#heading
+{
+    font-family: "PT Sans Narrow";
+    color: #FFFF00;
+}
+
+#gcs
+{
+    font-family: "PT Sans";
+    color: #669999;
+}
+
+
+.Graphs
+{
+    display: flex;
+    flex-wrap: wrap;
+    height: 60%;
+}
+
+#bonus-live
+{
+    margin: 100px;
+    width: 95%;
+}
+
+#button
+{
+    background-color: rgb(40,40,40);
+    border: 2px solid #669999;
+    color: orangered;
+    padding: 20px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 20px;
+    outline: None;
+}
+
+#button:active
+{
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+
+
+#connect-disconnect
+{
+    background-color: rgb(40,40,40);
+    border: 2px solid #669999;
+    color: #FFFF00;
+    padding: 6px 24px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin:5px;
+    outline: None;
+}
+
+#connect-disconnect:active
+{
+  box-shadow: 0 5px #666;
+  transform: translateY(2px);
+}
+
+#datatable-container
+{
+    margin: 3px;
+    outline: None;
+}
