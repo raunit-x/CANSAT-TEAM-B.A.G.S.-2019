@@ -1,7 +1,6 @@
 # Cansat Team B.A.G.S Ground Control Station
-<img src = '/CANSAT GUI/CanSat Logo - Color.png' width = "300">
-<h3>This repository is for the CANSAT competition 2019 (cansatcompetition.com) held at Texas, USA. 
-The codes are for GCS(Ground Control Station)</h3>
+<img src = '/CANSAT GUI/CanSat Logo - Color.png' width = "300" align="middle">
+  <h4>This repository is for the CANSAT competition 2019 (http://cansatcompetition.com/) held at Texas, USA</h4>
 
   <h4>1. Real time plotting of the telemetry.</h4>
   <img src = 'CANSAT GUI/Screen Shot 2019-05-12 at 4.59.40 PM.png' width = 900>
