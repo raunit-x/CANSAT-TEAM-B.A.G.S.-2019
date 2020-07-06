@@ -1,6 +1,6 @@
 # Cansat Team B.A.G.S Ground Control Station
   <h5>This repository is for the <a href="http://cansatcompetition.com/">CANSAT competition</a> 2019 held at Texas, USA. I was the software head of Team B.A.G.S. and secured a Rank: 3(PDR + CDR) worldwide.</h5>
-  <img src = '/CANSAT GUI/CanSat Logo - Color.png' width = "200" align="middle">
+  <a href="http://cansatcompetition.com/"><img src = '/CANSAT GUI/CanSat Logo - Color.png' width = "100" align="middle"></a>
   <h5>1. Real time plotting of the telemetry.</h4>
   <img src = 'CANSAT GUI/Screen Shot 2019-05-12 at 4.59.40 PM.png' width = 900>
   <img src = 'CANSAT GUI/Screen Shot 2019-05-12 at 4.59.46 PM.png' width = 900>
